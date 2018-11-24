@@ -40,6 +40,11 @@
                         <a class="nav-link" href="/">Add requests <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
+                {% if session.get('logged_in') %}
+                <span class="navbar-text">
+                    <a class="nav-link" href="/logout">Logout<span class="sr-only"></span></a>
+                </span>
+                {% endif %}
             </div>
         </nav>
         <div class="container-fluid">

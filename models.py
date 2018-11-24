@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from app import db
 from datetime import date
 
@@ -11,6 +11,20 @@ class User(db.Model):
     def __init__(self, username=None, password=None):
         self.username = username
         self.password = password
+
+    def is_authenticated(self):
+        return session.get('logged', False)
+
+    def is_active(self):
+        """True, as all users are active."""
+        return True
+
+    def get_id(self):
+        """Return the email address to satisfy Flask-Login's requirements."""
+        return self.id
+
+    def is_anonymous(self):
+        return False
 
     def __repr__(self):
         return '<User %r>' % (self.username)
