@@ -1,0 +1,43 @@
+{% extends "layout/base.html" %}
+
+{% block body %}
+   <div class="center-container">
+        <div class="row align-items-center h-100">
+            <div class="col-md-8 mx-auto">
+                <table class="table table-striped" style="background: #73a2c4; color: #ffffff;">
+                    <thead>
+                        <tr>
+                            <th scope="col"># Request ID</th>
+                            <th scope="col"> Request </th>
+                            <th scope="col"> Client</th>
+                            <th scope="col"> Product Area </th>
+                            <th scope="col"> Target Date </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in requests %}
+                        <tr>
+                            <th scope="row">{{ request.id }}</th>
+                            <td style="max-width: 300px;">{{ request.title }}</td>
+                            <td>{{ request.client_name }}</td>
+                            <td> {{ request.product_category }}  </td>
+                            <td> {{ request.target_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                format: 'L'
+            });
+        });
+    </script>
+{% endblock %}

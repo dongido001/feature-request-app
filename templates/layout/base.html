@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel=stylesheet type=text href="{{ url_for('static', filename='css/custom.css') }}">
+    <link rel=stylesheet type=text href="{{ url_for('static', filename='css/tempusdominus-bootstrap-4.min.css') }}">
+
+    <title> Requester </title>
+    <style>
+        .center-container {
+            height: 100vh;
+            width: 100vw;
+        }
+        html, body {height:100%}
+    </style>
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #7CA2C1 !important;">
+            <button class="navbar-toggler" 
+                type="button" 
+                data-toggle="collapse" 
+                data-target="#navbarTogglerDemo01" 
+                aria-controls="navbarTogglerDemo01" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navbar-brand" href="/">rQuest</a>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/requests">Requests <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Add requests <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            {% block body %}{% endblock %}
+        </div>
+
+        {% block script %} 
+            <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/tempusdominus-bootstrap-4.min.js') }}"></script>
+        {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,87 @@
+{% extends "layout/base.html" %}
+
+{% block body %}
+   <div class="center-container">
+        <div class="row align-items-center h-100">
+            <div class="col-md-8 mx-auto">
+                {% if message %}
+                    <div 
+                       class="alert 
+                       alert-{% if not message.error %}success{% else %}danger{% endif %}" 
+                       role="role"
+                    >
+                        {{ message.message }}
+                    </div>
+                {% endif %}
+
+                <form action="/add_request" method="POST">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter feature title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter feature description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="client">Client</label>
+                        <select class="form-control" id="client" name="client" required>
+                            {% for client in clients %}
+                                <option value="{{ client.id }}"> {{ client.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="priority">Piority</label>
+                            <select class="form-control" id="priority" name="priority" required>
+                                {% for category in product_categories%}
+                                   <option value="{{ category.id }}"> {{ category.name }} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="target_date">Target date</label>
+                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                <input 
+                                    type="text" 
+                                    class="form-control datetimepicker-input" 
+                                    data-target="#datetimepicker4" 
+                                    id="target_date"
+                                    name="target_date"
+                                    required
+                                >
+                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product_area">Product Area</label>
+                        <select class="form-control" id="product_area" name="product_area" required>
+                            {% for category in product_categories%}
+                               <option value="{{ category.id }}"> {{ category.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+        });
+    </script>
+{% endblock %}
