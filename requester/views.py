@@ -3,7 +3,7 @@ from requester import create_app, db
 from requester.models import User, Request, Client, ProductCategory
 import os
 import pprint
-from datetime import date
+from datetime import datetime
 from flask_login import login_user, login_required, logout_user
 
 bp = Blueprint('main', __name__)
