@@ -1,4 +1,4 @@
-web: python manage.py runserver --host 0.0.0.0 --port ${PORT}
-init: python manage.py db init
-migrate: python manage.py db migrate
-upgrade: python manage.py db upgrade
+web: python run.py runserver --host 0.0.0.0 --port ${PORT}
+init: python run.py db init
+migrate: python run.py db migrate
+upgrade: python run.py db upgrade
