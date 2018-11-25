@@ -7,16 +7,17 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel=stylesheet type=text href="{{ url_for('static', filename='css/custom.css') }}">
     <link rel=stylesheet type=text href="{{ url_for('static', filename='css/tempusdominus-bootstrap-4.min.css') }}">
 
     <title> Requester </title>
     <style>
         .center-container {
-            height: 100vh;
+            height: 90vh;
             width: 100vw;
         }
-        html, body {height:100%}
+        body, html {
+            overflow:hidden;
+        }
     </style>
   </head>
   <body>
