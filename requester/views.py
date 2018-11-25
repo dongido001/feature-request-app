@@ -27,7 +27,7 @@ def add_request():
     description = request.form.get("description")
     client_id = request.form.get("client")
     priority = request.form.get("priority")
-    target_date = date.fromisoformat(request.form.get("target_date"))
+    target_date = datetime.strptime(request.form.get("target_date"), "%Y-%m-%d").date()
     product_area = request.form.get("product_area")
 
     if not (title and description and client_id and priority and target_date and product_area):
