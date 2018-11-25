@@ -1,5 +1,5 @@
 from flask import Flask, session
-from app import db
+from requester import db
 from datetime import date
 
 class User(db.Model):
