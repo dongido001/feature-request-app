@@ -1,32 +1,15 @@
-from flask import Flask, request, jsonify, render_template, url_for, session, flash, redirect
-from app import app, db
-from models import User, Request, Client, ProductCategory
+from flask import Flask, Blueprint, request, jsonify, render_template, url_for, session, flash, redirect
+from requester import create_app, db
+from requester.models import User, Request, Client, ProductCategory
 import os
 import pprint
 from datetime import date
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+bp = Blueprint('main', __name__)
 
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db.session.remove()
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
-
-@login_manager.unauthorized_handler
-def unauthorized():
-    message = {
-        'message': "You need to login",
-        'error': True
-    }
-    return render_template('auth/login.html', message=message)
-
-@app.route('/')
-@app.route('/add_request', methods=["POST", "GET"])
+@bp.route('/')
+@bp.route('/add_request', methods=["POST", "GET"])
 @login_required
 def add_request():
     clients = Client.query.all()
@@ -93,7 +76,7 @@ def add_request():
         clients=clients
     )
 
-@app.route('/requests')
+@bp.route('/requests')
 @login_required
 def view_requests():
     requests = Request.query.add_columns(Request.id, Request.target_date, Request.title, Request.priority) \
@@ -106,7 +89,7 @@ def view_requests():
     return render_template('requests.html', requests=requests)
 
 
-@app.route('/login', methods=["POST", "GET"])
+@bp.route('/login', methods=["POST", "GET"])
 def login():
     if request.method != "POST":
         return render_template('auth/login.html')
@@ -134,17 +117,17 @@ def login():
 
     login_user(registered_user)
     session['logged_in'] = True
-    return redirect(url_for('view_requests'))
+    return redirect(url_for('main.view_requests'))
 
 
-@app.route("/logout", methods=["GET"])
+@bp.route("/logout", methods=["GET"])
 def logout():
     logout_user()
     session['logged_in'] = False
     return render_template("auth/login.html")
 
 
-@app.route("/get_clients")
+@bp.route("/get_clients")
 def get_clients():
     clients = Client.query.all()
 
@@ -157,7 +140,7 @@ def get_clients():
     }
     return jsonify(response)
 
-@app.route("/get_client_priority/<int:client_id>")
+@bp.route("/get_client_priority/<int:client_id>")
 def get_client_priority(client_id):
     requests = Request \
                 .query.filter(Request.client_id==client_id) \

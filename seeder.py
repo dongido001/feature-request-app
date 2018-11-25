@@ -1,10 +1,7 @@
 from datetime import datetime, timedelta
-from app import app, db
-from models import User, Client, ProductCategory
+from requester import db
+from requester.models import User, Client, ProductCategory
 
-import click
-
-@app.cli.command('seed')
 def seed_db():
     print('Starting seeding the database ...')
     try:
@@ -59,9 +56,7 @@ def seed_user_data():
         db.session.query(User).delete()
         db.session.commit()
         
-        logins = [ 
-                ("login", "login")
-        ]
+        logins = [ ("login", "login")]
         
         for login in logins:
                 db.session.add( User(login[0], login[1]) )
