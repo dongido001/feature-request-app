@@ -25,21 +25,33 @@
                     </div>
                     <div class="form-group">
                         <label for="client">Client</label>
-                        <select class="form-control" id="client" name="client" required>
-                            {% for client in clients %}
-                                <option value="{{ client.id }}"> {{ client.name }}</option>
-                            {% endfor %}
-                        </select>
+                        <select 
+                           data-bind="options: clients,
+                                      optionsText: 'clientName',
+                                      optionsValue: 'clientId',
+                                      value: selectedClient,
+                                      optionsCaption: 'Choose...'"
+                            class="form-control" 
+                            id="client" 
+                            name="client"
+                            required
+                        ></select>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="priority">Piority</label>
-                            <select class="form-control" id="priority" name="priority" required>
-                                {% for category in product_categories%}
-                                   <option value="{{ category.id }}"> {{ category.name }} </option>
-                                {% endfor %}
-                            </select>
+                            <label for="priority">Priority</label>
+                            <select 
+                                data-bind="options: priorities,
+                                           optionsText: 'priority',
+                                           optionsValue: 'priority',
+                                           value: selectedPriority,
+                                           optionsCaption: 'Select priority'"
+                                class="form-control" 
+                                id="priority" 
+                                name="priority"
+                                required
+                            ></select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="target_date">Target date</label>
@@ -77,6 +89,53 @@
 
 {% block script %}
     {{ super() }}
+    <script type="text/javascript">
+
+        var Client = function(name, id) {
+            this.clientName = name;
+            this.clientId = id;
+        };
+
+        var Priority = function(val) {
+            this.priority = val;
+        };
+    
+        var viewModel = {
+            clients : ko.observableArray([]),
+            selectedClient : ko.observable(), // Nothing selected by default
+            priorities: ko.observableArray([]),
+            selectedPriority : ko.observable()
+        };
+        
+        // Get all clients from the database
+        fetch(`/get_clients`)
+            .then( (response) => {
+                return response.json();
+            })
+            .then( (response) => {
+                for (data of response.data) {
+                    viewModel.clients.push(new Client(data.client_name, data.client_id));
+                }
+            });
+
+        // When the selected clients changes,
+        // Get the priority of the new client
+        viewModel.selectedClient.subscribe(function(client_id) {
+            fetch(`/get_client_priority/${client_id}`)
+                .then( (response) => {
+                    return response.json();
+                })
+                .then( (response) => {
+                    viewModel.priorities.removeAll();
+                    response.priorities.forEach( (value, index) => {
+                        viewModel.priorities.push(new Priority(value));
+                    });
+                });
+        });
+
+        ko.applyBindings(viewModel);
+        
+    </script>
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker4').datetimepicker({

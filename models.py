@@ -57,6 +57,7 @@ class Request(db.Model):
     title = db.Column(db.String(200), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('product_categories.id'), nullable=False)
+    priority = db.Column(db.Integer, nullable=False)
     target_date = db.Column(db.Date(), default=date)
 
     def __repr__(self):

@@ -96,7 +96,7 @@ def add_request():
 @app.route('/requests')
 @login_required
 def view_requests():
-    requests = Request.query.add_columns(Request.id, Request.target_date, Request.title) \
+    requests = Request.query.add_columns(Request.id, Request.target_date, Request.title, Request.priority) \
                             .join(Client, Client.id==Request.client_id)  \
                                     .add_columns(Client.name.label('client_name')) \
                             .join(ProductCategory, ProductCategory.id==Request.category_id) \
@@ -142,3 +142,38 @@ def logout():
     logout_user()
     session['logged_in'] = False
     return render_template("auth/login.html")
+
+
+@app.route("/get_clients")
+def get_clients():
+    clients = Client.query.all()
+
+    response = {
+        'status': 'success',
+        'data': [ 
+            {'client_id': client.id, 'client_name': client.name} 
+            for client in clients
+        ]
+    }
+    return jsonify(response)
+
+@app.route("/get_client_priority/<int:client_id>")
+def get_client_priority(client_id):
+    requests = Request \
+                .query.filter(Request.client_id==client_id) \
+                .add_columns(Request.priority) \
+                .all()
+                
+    priorities = [request.priority for request in requests]
+
+    generate_priority = [
+        priority 
+        for priority in range(1, (10 + len(priorities) + 1) )
+        if priority not in priorities
+    ]
+
+    response = {
+        'priorities': generate_priority
+    }
+
+    return jsonify(response)

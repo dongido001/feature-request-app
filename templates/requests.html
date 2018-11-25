@@ -9,6 +9,7 @@
                         <tr>
                             <th scope="col"># Request ID</th>
                             <th scope="col"> Request </th>
+                            <th scope="col"> Priority </th>
                             <th scope="col"> Client</th>
                             <th scope="col"> Product Area </th>
                             <th scope="col"> Target Date </th>
@@ -19,6 +20,7 @@
                         <tr>
                             <th scope="row">{{ request.id }}</th>
                             <td style="max-width: 300px;">{{ request.title }}</td>
+                            <td>{{ request.priority }}</td>
                             <td>{{ request.client_name }}</td>
                             <td> {{ request.product_category }}  </td>
                             <td> {{ request.target_date }}</td>
@@ -29,15 +31,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    {{ super() }}
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker4').datetimepicker({
-                format: 'L'
-            });
-        });
-    </script>
 {% endblock %}
