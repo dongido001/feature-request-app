@@ -1,1 +1,1 @@
-web: python run.py db upgrade; python run.py seed; gunicorn run:app
+web: python run.py db upgrade; python run.py seed; gunicorn run.py runserver
