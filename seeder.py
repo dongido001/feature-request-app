@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from requester import db
+from werkzeug.security import generate_password_hash, check_password_hash
 from requester.models import User, Client, ProductCategory
 
 def seed_db():
@@ -56,7 +57,9 @@ def seed_user_data():
         db.session.query(User).delete()
         db.session.commit()
         
-        logins = [ ("login", "login")]
+        logins = [ 
+                ("login", "login")
+        ]
         
         for login in logins:
                 db.session.add( User(login[0], login[1]) )

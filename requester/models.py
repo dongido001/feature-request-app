@@ -1,6 +1,7 @@
 from flask import Flask, session
 from requester import db
 from datetime import date
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -10,7 +11,7 @@ class User(db.Model):
 
     def __init__(self, username=None, password=None):
         self.username = username
-        self.password = password
+        self.password = generate_password_hash(password)
 
     def is_authenticated(self):
         return session.get('logged', False)
@@ -22,6 +23,9 @@ class User(db.Model):
     def get_id(self):
         """Return the email address to satisfy Flask-Login's requirements."""
         return self.id
+    
+    def check_password_hash(self, password):
+        return check_password_hash(self.password, password)
 
     def is_anonymous(self):
         return False

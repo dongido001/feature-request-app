@@ -107,15 +107,16 @@ def login():
             message=message
         )
 
-    registered_user = User.query.filter_by(username=username,password=password).first()
-    if registered_user is None:
+    _user = User.query.filter_by(username=username).first()
+
+    if not ( _user and _user.check_password_hash(password) ):
         message = {
             'message': "Login failed. Try again.",
             'error': True
         }
         return render_template('auth/login.html', message=message)
 
-    login_user(registered_user)
+    login_user(_user)
     session['logged_in'] = True
     return redirect(url_for('main.view_requests'))
 
