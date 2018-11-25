@@ -2,6 +2,13 @@
 
 This app helps you manage feature request from your customers. Online version for this app can be found here - https://rquesta.herokuapp.com/
 
+Default login:
+
+```bash
+    Username: login
+    Password: login
+```
+
 ## Prequisite
 
 This app uses the following technologies:
@@ -26,7 +33,7 @@ Then change your current location to the project root folder:
    $ cd feature-request-app
 ```
 
-From your command line, change your directory to the Flask project root folder, execute the below command:
+Create a virtual environment:
 
 
     $ python3 -m venv env
