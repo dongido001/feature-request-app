@@ -9,7 +9,7 @@ Default login:
     Password: login
 ```
 
-## Prequisite
+## Prerequisite
 
 This app uses the following technologies:
 
